@@ -12,9 +12,3 @@ avec un design personnalisé style **MrGloom / néon gamer**.
 - 🎨 Design sombre + néon (vert / violet) basé sur TailwindCSS via CDN
 - 🌐 Parfait pour une mise en ligne rapide via GitHub Pages
 
-## 🚀 Utilisation locale
-
-1. Télécharge ou clone ce dépôt.
-2. Ouvre simplement `index.html` dans ton navigateur (double-clic ou glisser-déposer dans la fenêtre du navigateur).
-
-………...
