@@ -11,3 +11,6 @@ avec un design personnalisé style **MrGloom / néon gamer**.
 - 💻 Commandes `bash` clairement mises en forme (retours à la ligne forcés)
 - 🎨 Design sombre + néon (vert / violet) basé sur TailwindCSS via CDN
 - 🌐 Parfait pour une mise en ligne rapide via GitHub Pages
+
+## 🌍 Publication sur GitHub Pages
+https://minititux.github.io/casaos-fix/
