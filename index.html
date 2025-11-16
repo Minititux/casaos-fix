@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard CasaOS / Docker - MrGloom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gloom: {
+              DEFAULT: '#22c55e',
+              soft: '#4ade80',
+              dark: '#16a34a',
+            },
+            gloomPurple: '#7c3aed',
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-3xl relative">
+    <!-- Glow background -->
+    <div class="absolute -inset-1 bg-gradient-to-br from-gloomPurple via-gloom to-cyan-400 opacity-50 blur-3xl -z-10"></div>
+
+    <div class="w-full bg-slate-900/90 border border-slate-700/80 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur">
+      <header class="mb-6 flex flex-col items-center text-center gap-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-gloom/60 shadow">
+          <span class="h-2 w-2 rounded-full bg-gloom animate-pulse"></span>
+          <span class="text-xs font-semibold tracking-wide uppercase text-gloom">
+            MrGloom · minititux.fr
+          </span>
+        </div>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold">
+            Dashboard <span class="text-gloom">CasaOS / Docker</span>
+          </h1>
+          <p class="mt-2 text-sm text-slate-300">
+            Suivi complet pour corriger l&apos;erreur
+            <span class="font-mono">&quot;Failed to load apps&quot;</span>
+            en repassant Docker en <span class="font-semibold text-gloomSoft">28.5.2</span>.
+          </p>
+        </div>
+      </header>
+
+      <!-- Progress -->
+      <section class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            Progression
+            <span class="inline-flex items-center gap-1 rounded-full bg-slate-800 px-2 py-0.5 text-[10px] uppercase tracking-wide text-slate-300">
+              <span class="w-1 h-1 rounded-full bg-gloom"></span>
+              Live
+            </span>
+          </span>
+          <span id="progressText" class="text-sm text-slate-300">0% - 0/5 étapes</span>
+        </div>
+        <div class="w-full bg-slate-800/80 rounded-full h-3 overflow-hidden border border-slate-700/70">
+          <div id="progressBar" class="h-3 rounded-full bg-gradient-to-r from-gloom via-gloomPurple to-cyan-400 transition-all duration-300" style="width: 0%;"></div>
+        </div>
+      </section>
+
+      <!-- Steps -->
+      <section id="steps" class="space-y-4">
+        <!-- Étape 1 -->
+        <article class="flex gap-3 bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80">
+          <label class="mt-1">
+            <input type="checkbox" data-step="1" class="step-checkbox w-5 h-5 rounded border-slate-500 text-gloom focus:ring-gloom">
+          </label>
+          <div class="flex-1">
+            <h2 class="font-bold text-base md:text-lg flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-xs border border-slate-600">1</span>
+              Vérifier la version actuelle de Docker
+            </h2>
+            <p class="text-sm text-slate-300 mt-1">
+              Confirme que Docker est bien en <span class="font-mono">29.x</span> (c&apos;est cette version qui pose problème avec CasaOS).
+            </p>
+            <pre class="mt-2 text-xs md:text-sm bg-slate-950/90 border border-slate-800 rounded-xl p-3 overflow-x-auto" style="white-space: pre-wrap;">
+docker version</pre>
+          </div>
+        </article>
+
+        <!-- Étape 2 -->
+        <article class="flex gap-3 bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80">
+          <label class="mt-1">
+            <input type="checkbox" data-step="2" class="step-checkbox w-5 h-5 rounded border-slate-500 text-gloom focus:ring-gloom">
+          </label>
+          <div class="flex-1">
+            <h2 class="font-bold text-base md:text-lg flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-xs border border-slate-600">2</span>
+              Downgrader Docker vers la version 28.5.2
+            </h2>
+            <p class="text-sm text-slate-300 mt-1">
+              On force l&apos;installation de la version compatible avec CasaOS (API Docker plus ancienne).
+            </p>
+            <pre class="mt-2 text-xs md:text-sm bg-slate-950/90 border border-slate-800 rounded-xl p-3 overflow-x-auto" style="white-space: pre-wrap;">
+VERSION="5:28.5.2-1~debian.13~trixie"
+
+sudo apt-get update
+
+sudo apt-get install --allow-downgrades   docker-ce=$VERSION   docker-ce-cli=$VERSION   docker-ce-rootless-extras=$VERSION   docker-buildx-plugin   docker-compose-plugin</pre>
+          </div>
+        </article>
+
+        <!-- Étape 3 -->
+        <article class="flex gap-3 bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80">
+          <label class="mt-1">
+            <input type="checkbox" data-step="3" class="step-checkbox w-5 h-5 rounded border-slate-500 text-gloom focus:ring-gloom">
+          </label>
+          <div class="flex-1">
+            <h2 class="font-bold text-base md:text-lg flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-xs border border-slate-600">3</span>
+              Bloquer les mises à jour automatiques de Docker
+            </h2>
+            <p class="text-sm text-slate-300 mt-1">
+              Ça évite de repasser en <span class="font-mono">29.x</span> au prochain
+              <span class="font-mono">apt upgrade</span> et de tout casser à nouveau.
+            </p>
+            <pre class="mt-2 text-xs md:text-sm bg-slate-950/90 border border-slate-800 rounded-xl p-3 overflow-x-auto" style="white-space: pre-wrap;">
+sudo apt-mark hold docker-ce docker-ce-cli docker-ce-rootless-extras containerd.io</pre>
+          </div>
+        </article>
+
+        <!-- Étape 4 -->
+        <article class="flex gap-3 bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80">
+          <label class="mt-1">
+            <input type="checkbox" data-step="4" class="step-checkbox w-5 h-5 rounded border-slate-500 text-gloom focus:ring-gloom">
+          </label>
+          <div class="flex-1">
+            <h2 class="font-bold text-base md:text-lg flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-xs border border-slate-600">4</span>
+              Redémarrer CasaOS (ou le serveur)
+            </h2>
+            <p class="text-sm text-slate-300 mt-1">
+              CasaOS doit se reconnecter au daemon Docker avec la bonne API après le downgrade.
+            </p>
+            <pre class="mt-2 text-xs md:text-sm bg-slate-950/90 border border-slate-800 rounded-xl p-3 overflow-x-auto" style="white-space: pre-wrap;">
+sudo systemctl restart casaos.service
+# ou
+sudo reboot</pre>
+          </div>
+        </article>
+
+        <!-- Étape 5 -->
+        <article class="flex gap-3 bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80">
+          <label class="mt-1">
+            <input type="checkbox" data-step="5" class="step-checkbox w-5 h-5 rounded border-slate-500 text-gloom focus:ring-gloom">
+          </label>
+          <div class="flex-1">
+            <h2 class="font-bold text-base md:text-lg flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-xs border border-slate-600">5</span>
+              Vérifier CasaOS et l&apos;App Store
+            </h2>
+            <p class="text-sm text-slate-300 mt-1">
+              Ouvre l&apos;interface CasaOS et vérifie que l&apos;erreur
+              <span class="font-mono">&quot;Failed to load apps&quot;</span> a disparu et que les apps se chargent.
+            </p>
+            <p class="mt-2 text-xs text-slate-400">
+              Optionnel : revérifier la version de Docker pour confirmer le downgrade :
+            </p>
+            <pre class="mt-2 text-xs md:text-sm bg-slate-950/90 border border-slate-800 rounded-xl p-3 overflow-x-auto" style="white-space: pre-wrap;">
+docker version</pre>
+          </div>
+        </article>
+      </section>
+
+      <!-- Notes perso -->
+      <section class="mt-6">
+        <h2 class="text-base md:text-lg font-semibold mb-2 flex items-center gap-2">
+          <span class="inline-block w-1 h-6 rounded-full bg-gradient-to-b from-gloom to-gloomPurple"></span>
+          Notes perso
+        </h2>
+        <p class="text-xs md:text-sm text-slate-300 mb-2">
+          Note ici les erreurs rencontrées, l&apos;IP du serveur, la config matérielle, etc.
+          Tout est sauvegardé dans ton navigateur (localStorage).
+        </p>
+        <textarea
+          id="notes"
+          class="w-full h-32 md:h-40 rounded-2xl bg-slate-950/80 border border-slate-700 p-3 text-sm outline-none focus:ring-2 focus:ring-gloom focus:border-gloom"
+          placeholder="Exemple : RPi 4 / Debian 13 · downgrade OK · CasaOS & App Store fonctionnels · à retester après reboot complet..."
+        ></textarea>
+      </section>
+
+      <!-- Footer -->
+      <footer class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+        <span>Dashboard CasaOS / Docker · Edition <span class="text-gloom">MrGloom</span> 🔧</span>
+        <span>Design néon · Modifiable librement · Parfait pour GitHub Pages</span>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_CHECKBOXES_KEY = "casaos_fix_checkboxes_mrgloom_v1";
+    const STORAGE_NOTES_KEY = "casaos_fix_notes_mrgloom_v1";
+
+    const checkboxes = document.querySelectorAll(".step-checkbox");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    const notes = document.getElementById("notes");
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_CHECKBOXES_KEY) || "{}");
+        checkboxes.forEach(cb => {
+          const step = cb.getAttribute("data-step");
+          if (saved[step]) cb.checked = true;
+        });
+      } catch (e) {
+        console.error("Erreur chargement état checkboxes:", e);
+      }
+
+      try {
+        const savedNotes = localStorage.getItem(STORAGE_NOTES_KEY);
+        if (savedNotes !== null) {
+          notes.value = savedNotes;
+        }
+      } catch (e) {
+        console.error("Erreur chargement notes:", e);
+      }
+
+      updateProgress();
+    }
+
+    function saveCheckboxes() {
+      const data = {};
+      checkboxes.forEach(cb => {
+        const step = cb.getAttribute("data-step");
+        data[step] = cb.checked;
+      });
+      localStorage.setItem(STORAGE_CHECKBOXES_KEY, JSON.stringify(data));
+    }
+
+    function saveNotes() {
+      localStorage.setItem(STORAGE_NOTES_KEY, notes.value);
+    }
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      let done = 0;
+      checkboxes.forEach(cb => { if (cb.checked) done++; });
+
+      const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+      progressBar.style.width = percent + "%";
+      progressText.textContent = `${percent}% - ${done}/${total} étapes`;
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", () => {
+        saveCheckboxes();
+        updateProgress();
+      });
+    });
+
+    notes.addEventListener("input", () => {
+      saveNotes();
+    });
+
+    loadState();
+  </script>
+</body>
+</html>
